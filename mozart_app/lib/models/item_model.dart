@@ -1,9 +1,9 @@
 class Item {
   final String name;
 
-  final String ImagePath;
+  final String imagePath;
 
   final String audioPath;
 
-  Item({required this.name, required this.ImagePath, required this.audioPath});
+  Item({required this.name, required this.imagePath, required this.audioPath});
 }

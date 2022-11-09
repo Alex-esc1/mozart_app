@@ -25,6 +25,14 @@ class _MozartAppScreenState extends State<MozartAppScreen> {
 
   int? playingIndex;
 
+  Widget showIcon(int currentIndex) {
+    if (playingIndex == currentIndex) {
+      return Icon(Icons.stop);
+    } else {
+      return Icon(Icons.play_arrow);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,10 +54,22 @@ class _MozartAppScreenState extends State<MozartAppScreen> {
                   child: ListTile(
                     title: Text(items[index].name),
                     leading: IconButton(
-                      icon: Icon(Icons.play_arrow),
+                      icon: showIcon(index),
                       onPressed: (() {
-                        audioPlayer.setAsset(items[index].audioPath);
-                        audioPlayer.play();
+                        if (playingIndex == index) {
+                          audioPlayer.stop();
+
+                          setState(() {
+                            playingIndex = null;
+                          });
+                        } else {
+                          audioPlayer.setAsset(items[index].audioPath);
+                          audioPlayer.play();
+
+                          setState(() {
+                            playingIndex = index;
+                          });
+                        }
                       }),
                     ),
                   ),

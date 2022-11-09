@@ -7,7 +7,7 @@ class MozartAppScreen extends StatefulWidget {
 }
 
 class _MozartAppScreenState extends State<MozartAppScreen> {
-  final List<Item> item = [
+  final List<Item> items = [
     Item(
       name: 'One',
       imagePath: 'image/mozart-compose.jpg',
@@ -24,20 +24,34 @@ class _MozartAppScreenState extends State<MozartAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          children: [
-            Container(
-              height: 50,
-              color: Colors.yellow,
-              child: Text(item[0].name),
+        child: ListView.builder(
+          itemCount: items.length,
+        itemBuilder: (context, index) { 
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                  items[index].imagePath
+                ),
+                ),
+              ),
+              child: ListTile(
+                title: Text(items[index].name),
+                leading: IconButton(
+                  icon: Icon(Icons.play_arrow),
+                  onPressed: (() {
+                    
+                  }
+                ),
+              ),
             ),
-            Container(
-              height: 50,
-              color: Colors.green,
-              child: Text(item[1].name),
-            ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

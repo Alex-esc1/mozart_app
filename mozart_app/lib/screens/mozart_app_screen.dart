@@ -57,7 +57,7 @@ class _MozartAppScreenState extends State<MozartAppScreen> {
                       icon: playingIndex == index
                           ? const Icon(Icons.stop)
                           : const Icon(Icons.play_arrow),
-                      onPressed: (() {
+                      onPressed: (() async {
                         if (playingIndex == index) {
                           audioPlayer.stop();
 
@@ -65,12 +65,25 @@ class _MozartAppScreenState extends State<MozartAppScreen> {
                             playingIndex = null;
                           });
                         } else {
-                          audioPlayer.setAsset(items[index].audioPath);
-                          audioPlayer.play();
+                          try {
+                            await audioPlayer
+                                .setAsset(items[index].audioPath)
+                                .catchError((onError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red.withOpacity(0.5),
+                                  content: Text("Error"),
+                                ),
+                              );
+                            });
+                            audioPlayer.play();
 
-                          setState(() {
-                            playingIndex = index;
-                          });
+                            setState(() {
+                              playingIndex = index;
+                            });
+                          } catch (error) {
+                            print(error);
+                          }
                         }
                       }),
                     ),
